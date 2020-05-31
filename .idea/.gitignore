@@ -1,6 +1,8 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+/private_info
+.idea
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
