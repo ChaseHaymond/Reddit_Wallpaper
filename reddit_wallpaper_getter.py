@@ -1,27 +1,30 @@
 import ctypes
-
 import praw
 import requests
 
-with open('./private_info/id.txt', 'r') as file:
-    client_id = file.read().replace('\n', '')
+# This is the path to the picture you want as your desktop background
+desktop_picture_location = 'put your file path to picture here'
 
-with open('./private_info/secret.txt', 'r') as file:
-    client_secret = file.read().replace('\n', '')
+# You must have a Reddit account registered as a bot.
+# When you do you will have an id, secret, and user agent.
+client_id = 'put your id here'
+client_secret = 'put your secret here'
+user_agent = 'put your user agent here'
 
-with open('./private_info/user_agent.txt', 'r') as file:
-    user_agent = file.read().replace('\n', '')
-
+# Connects you to Reddit using the Reddit API
 reddit = praw.Reddit(client_id=client_id,
                      client_secret=client_secret,
                      user_agent=user_agent)
 
 reddit.read_only = True
 
+# Searches the subReddit wallpaper and gets the top post of the week.
+# If you wanted the top from the month or day just change week to month or day.
 for submission in reddit.subreddit("wallpaper").top('week', limit=1):
     picture_url = submission.url
 
-with open('./images/reddit_picture.jpg', 'wb') as handle:
+# Saves the image to your computer at desktop image location
+with open(desktop_picture_location, 'wb') as handle:
     response = requests.get(picture_url, stream=True)
 
     if not response.ok:
@@ -34,5 +37,5 @@ with open('./images/reddit_picture.jpg', 'wb') as handle:
 
         handle.write(block)
 
-
-ctypes.windll.user32.SystemParametersInfoW(20, 0, "C:/Users/cdhay/Desktop/this/Reddit_Wallpaper/images/reddit_picture.jpg", 0)
+# Set image to be new background picture
+ctypes.windll.user32.SystemParametersInfoW(20, 0, desktop_picture_location, 0)
