@@ -2,14 +2,14 @@ import ctypes
 
 import praw
 import requests
-# C:/Users/cdhay/Desktop/this/Reddit_Wallpaper/private_info/id.txt
-with open('C:/Users/cdhay/Desktop/this/Reddit_Wallpaper/private_info/id.txt', 'r') as file:
+
+with open('./private_info/id.txt', 'r') as file:
     client_id = file.read().replace('\n', '')
 
-with open('C:/Users/cdhay/Desktop/this/Reddit_Wallpaper/private_info/secret.txt', 'r') as file:
+with open('./private_info/secret.txt', 'r') as file:
     client_secret = file.read().replace('\n', '')
 
-with open('C:/Users/cdhay/Desktop/this/Reddit_Wallpaper/private_info/user_agent.txt', 'r') as file:
+with open('./private_info/user_agent.txt', 'r') as file:
     user_agent = file.read().replace('\n', '')
 
 reddit = praw.Reddit(client_id=client_id,
@@ -18,10 +18,10 @@ reddit = praw.Reddit(client_id=client_id,
 
 reddit.read_only = True
 
-for submission in reddit.subreddit("wallpaper").top('month', limit=1):
+for submission in reddit.subreddit("wallpaper").top('week', limit=1):
     picture_url = submission.url
 
-with open('C:/Users/cdhay/Pictures/Desktop_pictures/reddit_picture.jpg', 'wb') as handle:
+with open('./images/reddit_picture.jpg', 'wb') as handle:
     response = requests.get(picture_url, stream=True)
 
     if not response.ok:
@@ -35,4 +35,4 @@ with open('C:/Users/cdhay/Pictures/Desktop_pictures/reddit_picture.jpg', 'wb') a
         handle.write(block)
 
 
-ctypes.windll.user32.SystemParametersInfoW(20, 0, "C:/Users/cdhay/Pictures/Desktop_pictures/reddit_picture.jpg", 0)
+ctypes.windll.user32.SystemParametersInfoW(20, 0, "C:/Users/cdhay/Desktop/this/Reddit_Wallpaper/images/reddit_picture.jpg", 0)
